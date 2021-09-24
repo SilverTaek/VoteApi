@@ -1,5 +1,6 @@
 package com.taek.daangn.platform.domain.vote;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,13 @@ public class VoteItem {
 
     private Long voteItemCount;
 
+    @Builder
+    public VoteItem(String voteItemName){
+        this.voteItemName = voteItemName;
+    }
+
+    public void insert(String voteId, String voteItemName){
+        this.voteId = voteId;
+        this.voteItemName = voteItemName;
+    }
 }

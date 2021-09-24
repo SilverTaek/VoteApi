@@ -10,12 +10,10 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-@Builder
 @Entity
 public class Vote {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String voteId;
 
     private String userId;
@@ -30,4 +28,23 @@ public class Vote {
 
     @OneToMany
     private List<VoteItem> voteItem;
+
+    @Builder
+    public Vote(Long postId, String voteTitle, String voteContent, LocalDateTime voteDeadline, List<VoteItem> voteItems){
+        this.postId = postId;
+        this.voteTitle = voteTitle;
+        this.voteContent = voteContent;
+        this.voteDeadline = voteDeadline;
+        this.voteItem = voteItems;
+    }
+
+    public void insert(String voteId, String userId, Long postId, LocalDateTime voteDeadline, String voteTitle, String voteContent){
+        this.voteId = voteId;
+        this.userId = userId;
+        this.postId = postId;
+        this.voteDeadline = voteDeadline;
+        this.voteTitle = voteTitle;
+        this.voteContent = voteContent;
+    }
+
 }

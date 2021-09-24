@@ -27,7 +27,7 @@ public class VoteSaveRequestDto {
                 .voteTitle(voteTitle)
                 .voteContent(voteContent)
                 .voteDeadline(voteDeadline)
-                .voteItem(voteItem)
+                .voteItems(voteItem)
                 .build();
     }
 }
