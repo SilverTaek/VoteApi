@@ -34,4 +34,8 @@ public class VoteItem {
         this.voteItemName = voteItemName;
         this.voteItemCount = voteItemCount;
     }
+
+    public void count(Long voteItemCount) {
+        this.voteItemCount = voteItemCount;
+    }
 }
