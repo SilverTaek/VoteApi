@@ -5,6 +5,7 @@ import com.taek.daangn.platform.domain.vote.VoteItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class VoteSaveRequestDto {
 
     private List<VoteItem> voteItem;
 
-    private LocalDateTime voteDeadline;
+    private LocalDate voteDeadline;
 
     public Vote toEntity() {
         return Vote.builder()

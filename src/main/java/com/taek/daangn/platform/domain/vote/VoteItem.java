@@ -29,8 +29,9 @@ public class VoteItem {
         this.voteItemName = voteItemName;
     }
 
-    public void insert(String voteId, String voteItemName){
+    public void insert(String voteId, String voteItemName, Long voteItemCount){
         this.voteId = voteId;
         this.voteItemName = voteItemName;
+        this.voteItemCount = voteItemCount;
     }
 }

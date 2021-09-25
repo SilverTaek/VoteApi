@@ -1,6 +1,7 @@
 package com.taek.daangn.platform.web;
 
 import com.taek.daangn.platform.common.UUIDgeneration;
+import com.taek.daangn.platform.common.exception.VoteValidationException;
 import com.taek.daangn.platform.service.VoteService;
 import com.taek.daangn.platform.web.dto.VoteSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,12 @@ public class VoteController {
     @PostMapping("/api/v1/votes")
     public String save(@RequestHeader Map<String, String> map, @RequestBody VoteSaveRequestDto voteSaveRequestDto) {
         String userId = map.get("x-user-id");
+        if(userId.length() != 4) {
+            throw new VoteValidationException("사용자 아이디는 4자리 문자여야 합니다.");
+        }
         UUIDgeneration uuiDgeneration = new UUIDgeneration();
         String voteId = uuiDgeneration.getUUID();
-        System.out.println(voteId);
-        System.out.println(userId);
+
         return voteService.insert(voteSaveRequestDto, userId, voteId);
     }
 }

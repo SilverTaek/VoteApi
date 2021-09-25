@@ -8,6 +8,8 @@ import com.taek.daangn.platform.web.dto.VoteSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @RequiredArgsConstructor
 @Service
 public class VoteService {
@@ -16,14 +18,20 @@ public class VoteService {
 
     public String insert(VoteSaveRequestDto voteSaveRequestDto, String userId, String voteId) {
 
+        LocalDate voteDealline = LocalDate.now().plusDays(1);
+
         Vote vote = new Vote();
-        vote.insert(voteId, userId, voteSaveRequestDto.getPostId(), voteSaveRequestDto.getVoteDeadline(), voteSaveRequestDto.getVoteTitle(), voteSaveRequestDto.getVoteContent());
+        if(voteSaveRequestDto.getVoteDeadline() != null){
+            voteDealline = voteSaveRequestDto.getVoteDeadline().plusDays(1);
+        }
+
+        vote.insert(voteId, userId, voteSaveRequestDto.getPostId(), voteDealline, voteSaveRequestDto.getVoteTitle(), voteSaveRequestDto.getVoteContent());
 
         voteRepository.save(vote).getVoteId();
 
         for (int i = 0; i<voteSaveRequestDto.getVoteItem().size(); i++){
             VoteItem voteItem = new VoteItem();
-            voteItem.insert(voteId, voteSaveRequestDto.getVoteItem().get(i).getVoteItemName());
+            voteItem.insert(voteId, voteSaveRequestDto.getVoteItem().get(i).getVoteItemName(),0L);
             voteItemRepository.save(voteItem);
         }
 
