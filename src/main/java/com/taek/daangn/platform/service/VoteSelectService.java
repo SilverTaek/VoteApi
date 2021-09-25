@@ -24,7 +24,7 @@ public class VoteSelectService {
         voteStatusId.insert(userId, voteSelectRequestDto.getVoteItemId());
 
 
-        voteStatus.insert(voteStatusId);
+        voteStatus.insert(voteStatusId, voteSelectRequestDto.getVoteId());
 
         voteStatusRepository.save(voteStatus);
 
@@ -35,19 +35,19 @@ public class VoteSelectService {
         voteItemRepository.save(voteItem);
     }
 
-    public boolean checkDeadline(VoteSelectRequestDto voteSelectRequestDto){
+    public boolean checkDeadline(VoteSelectRequestDto voteSelectRequestDto) {
         LocalDate currentDate = LocalDate.now();
 
         Vote vote = voteRepository.findByVoteId(voteSelectRequestDto.getVoteId());
 
-       return currentDate.isAfter(vote.getVoteDeadline());
+        return currentDate.isAfter(vote.getVoteDeadline());
     }
 
-    public boolean isCheckedVoteItem(VoteSelectRequestDto voteSelectRequestDto){
+    public boolean isCheckedVoteItem(VoteSelectRequestDto voteSelectRequestDto) {
         Vote vote = voteRepository.findByVoteId(voteSelectRequestDto.getVoteId());
         VoteItem voteItem = voteItemRepository.findByVoteItemId(voteSelectRequestDto.getVoteItemId());
 
-        if(!vote.getVoteId().equals(voteItem.getVoteId())){
+        if (!vote.getVoteId().equals(voteItem.getVoteId())) {
             return false;
         }
 
@@ -55,19 +55,17 @@ public class VoteSelectService {
     }
 
     public boolean isCheckedUser(String userId, VoteSelectRequestDto voteSelectRequestDto) {
-        System.out.println("어디서 실패?");
+
         VoteStatusId voteStatusId = new VoteStatusId(userId, voteSelectRequestDto.getVoteItemId());
-        //voteStatusId.insert(userId, voteSelectRequestDto.getVoteItemId());
-        System.out.println(voteStatusId);
+
 
         Optional<VoteStatus> voteStatus = voteStatusRepository.findById(voteStatusId);
-        System.out.println("voteStatus 값은 = " + voteStatus);
+
         List<VoteStatus> voteStatusList = voteStatusRepository.findAll();
 
-        for (VoteStatus voteStatusSingle:voteStatusList) {
-            System.out.println(voteStatusSingle+"1");
-            System.out.println(voteStatus+"2");
-            if(voteStatus.equals(voteStatusSingle)){
+        for (VoteStatus voteStatusSingle : voteStatusList) {
+
+            if (voteStatus.equals(voteStatusSingle)) {
                 return false;
             }
         }
