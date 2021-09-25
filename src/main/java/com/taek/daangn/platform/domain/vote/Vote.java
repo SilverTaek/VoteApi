@@ -30,16 +30,7 @@ public class Vote {
     @OneToMany
     private List<VoteItem> voteItem;
 
-    @Builder
-    public Vote(Long postId, String voteTitle, String voteContent, LocalDate voteDeadline, List<VoteItem> voteItems){
-        this.postId = postId;
-        this.voteTitle = voteTitle;
-        this.voteContent = voteContent;
-        this.voteDeadline = voteDeadline;
-        this.voteItem = voteItems;
-    }
-
-    public void insert(String voteId, String userId, Long postId, LocalDate voteDeadline, String voteTitle, String voteContent){
+    public void insert(String voteId, String userId, Long postId, LocalDate voteDeadline, String voteTitle, String voteContent) {
         this.voteId = voteId;
         this.userId = userId;
         this.postId = postId;

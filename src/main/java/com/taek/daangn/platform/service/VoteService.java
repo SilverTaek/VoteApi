@@ -1,12 +1,13 @@
 package com.taek.daangn.platform.service;
 
 import com.taek.daangn.platform.domain.vote.*;
-import com.taek.daangn.platform.web.dto.VoteResponseDto;
-import com.taek.daangn.platform.web.dto.VoteSaveRequestDto;
+import com.taek.daangn.platform.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -50,5 +51,17 @@ public class VoteService {
             }
         }
         return new VoteResponseDto(entity, voteItems, flag);
+    }
+
+    public List<VoteItem> findVoteResult(VoteSelectRequestDto voteSelectRequestDto) {
+        List<VoteItem> voteItems = voteItemRepository.findByVoteIdOrderByVoteItemCountDesc(voteSelectRequestDto.getVoteId());
+        return voteItems;
+    }
+
+    public List<Vote> findSaveVote(String userId) {
+
+        List<Vote> votes = voteRepository.findByUserId(userId);
+
+        return votes;
     }
 }

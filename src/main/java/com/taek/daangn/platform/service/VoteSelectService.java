@@ -55,17 +55,10 @@ public class VoteSelectService {
     }
 
     public boolean isCheckedUser(String userId, VoteSelectRequestDto voteSelectRequestDto) {
+        List<VoteStatus> voteStatuses = voteStatusRepository.findAllByVoteStatusId_UserId(userId);
 
-        VoteStatusId voteStatusId = new VoteStatusId(userId, voteSelectRequestDto.getVoteItemId());
-
-
-        Optional<VoteStatus> voteStatus = voteStatusRepository.findById(voteStatusId);
-
-        List<VoteStatus> voteStatusList = voteStatusRepository.findAll();
-
-        for (VoteStatus voteStatusSingle : voteStatusList) {
-
-            if (voteStatus.equals(voteStatusSingle)) {
+        for (VoteStatus voteStatus : voteStatuses) {
+            if (voteStatus.getVoteId().equals(voteSelectRequestDto.getVoteId())) {
                 return false;
             }
         }
