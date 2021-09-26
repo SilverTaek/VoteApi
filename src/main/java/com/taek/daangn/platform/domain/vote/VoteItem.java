@@ -1,8 +1,8 @@
 package com.taek.daangn.platform.domain.vote;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +11,7 @@ import javax.persistence.Id;
 
 @NoArgsConstructor
 @Getter
+@DynamicInsert
 @Entity
 public class VoteItem {
 
@@ -24,15 +25,9 @@ public class VoteItem {
 
     private Long voteItemCount;
 
-    @Builder
-    public VoteItem(String voteItemName){
-        this.voteItemName = voteItemName;
-    }
-
-    public void insert(String voteId, String voteItemName, Long voteItemCount){
+    public VoteItem(String voteId, String voteItemName) {
         this.voteId = voteId;
         this.voteItemName = voteItemName;
-        this.voteItemCount = voteItemCount;
     }
 
     public void count(Long voteItemCount) {

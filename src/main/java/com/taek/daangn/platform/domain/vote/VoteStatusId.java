@@ -1,6 +1,5 @@
 package com.taek.daangn.platform.domain.vote;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,18 +11,15 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 public class VoteStatusId implements Serializable {
+
     @Column(name = "user_id")
     private String userId;
-    @Column(name = "vote_item_id")
-    private Long voteItemId;
 
-    public VoteStatusId(String userId, Long voteItemId){
-        this.userId = userId;
-        this.voteItemId = voteItemId;
-    }
+    @Column(name = "vote_id")
+    private String voteId;
 
-    public void insert(String userId, Long voteItemId){
+    public VoteStatusId(String userId, String voteId) {
         this.userId = userId;
-        this.voteItemId = voteItemId;
+        this.voteId = voteId;
     }
 }
