@@ -3,18 +3,13 @@ package com.taek.daangn.platform.web;
 import com.taek.daangn.platform.common.UUIDgeneration;
 import com.taek.daangn.platform.common.exception.VoteValidationException;
 import com.taek.daangn.platform.domain.vote.Vote;
-import com.taek.daangn.platform.domain.vote.VoteItem;
-import com.taek.daangn.platform.service.VoteItemService;
 import com.taek.daangn.platform.service.VoteSelectService;
 import com.taek.daangn.platform.service.VoteService;
 import com.taek.daangn.platform.web.dto.VoteResponseDto;
 import com.taek.daangn.platform.web.dto.VoteSaveRequestDto;
 import com.taek.daangn.platform.web.dto.VoteSelectRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.security.validator.ValidatorException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,36 +33,23 @@ public class VoteController {
     }
 
     @PostMapping("/api/v1/vote/item")
-    public Map<String, List<VoteItem>> voteSelect(@RequestHeader Map<String, String> map, @RequestBody VoteSelectRequestDto voteSelectRequestDto) throws ValidatorException {
-        Map<String, List<VoteItem>> response = new HashMap<>();
+    public Map<String, String> voteSelect(@RequestHeader Map<String, String> map, @RequestBody VoteSelectRequestDto voteSelectRequestDto) {
+        Map<String, String> response = new HashMap<>();
 
         if (voteSelectService.checkDeadline(voteSelectRequestDto)) {
-            response.put("실패", voteService.findVoteResult(voteSelectRequestDto));
+            response.put("Reason", "마감 된 투표입니다.");
+            response.put("Result", "실패");
             return response;
         }
 
-        String userId = map.get("x-user-id");
-        if (userId.length() != 4) {
-            throw new VoteValidationException("사용자 아이디는 4자리 문자여야 합니다.");
-        }
-
-        if (!voteSelectService.isCheckedVoteItem(voteSelectRequestDto))
-            throw new VoteValidationException("투표와 선택한 항목이 일치하지 않습니다.");
-
-
-        if (voteSelectService.isCheckedUser(userId, voteSelectRequestDto)) {
-            voteSelectService.select(userId, voteSelectRequestDto);
-            response.put("성공", null);
+        if (voteSelectService.isCheckedUser(map.get("x-user-id"), voteSelectRequestDto)) {
+            voteSelectService.select(map.get("x-user-id"), voteSelectRequestDto);
+            response.put("Result", "성공");
         } else {
             throw new VoteValidationException("이미 투표를 완료했습니다. 투표는 한번만 가능합니다.");
         }
 
         return response;
-    }
-
-    @GetMapping("api/v1/votes/{userId}")
-    public List<Vote> findSaveVote(@PathVariable String userId) {
-        return voteService.findSaveVote(userId);
     }
 
 }

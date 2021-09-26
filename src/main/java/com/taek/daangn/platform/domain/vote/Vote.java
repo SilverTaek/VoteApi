@@ -31,8 +31,7 @@ public class Vote {
     private String voteContent;
 
     @OneToMany
-    private List<VoteItem> voteItem;
-    //그냥 생성자로 만들자 , 정적 팩토리 메서드
+    private List<VoteItem> voteItems;
 
     @Builder
     public Vote(String voteId, Long postId, LocalDateTime voteDeadline, String voteTitle, String voteContent) {
@@ -41,7 +40,6 @@ public class Vote {
         this.voteDeadline = voteDeadline;
         this.voteTitle = voteTitle;
         this.voteContent = voteContent;
-
     }
 
     public void setVoteIdAndUserId(String voteId, String userId) {
@@ -50,8 +48,8 @@ public class Vote {
     }
 
     @PrePersist
-    public void isCheckedDeadline(){
-        if(this.voteDeadline == null) {
+    public void isCheckedDeadline() {
+        if (this.voteDeadline == null) {
             this.voteDeadline = LocalDateTime.now().plusDays(1);
         }
     }

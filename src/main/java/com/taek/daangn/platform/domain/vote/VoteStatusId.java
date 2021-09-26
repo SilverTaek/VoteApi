@@ -11,8 +11,10 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 public class VoteStatusId implements Serializable {
+
     @Column(name = "user_id")
     private String userId;
+
     @Column(name = "vote_id")
     private String voteId;
 

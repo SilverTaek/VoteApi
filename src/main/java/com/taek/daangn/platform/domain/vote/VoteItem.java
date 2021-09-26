@@ -25,7 +25,7 @@ public class VoteItem {
 
     private Long voteItemCount;
 
-    public VoteItem (String voteId, String voteItemName) {
+    public VoteItem(String voteId, String voteItemName) {
         this.voteId = voteId;
         this.voteItemName = voteItemName;
     }

@@ -7,9 +7,13 @@ public class Validation {
 
     public void userIdValidation(String userId) {
         if (userId.length() != 4) {
-            throw new VoteValidationException("사용자 아이디는 4자리 문자여야 합니다.");
+            throw new VoteValidationException("사용자 ID는 4자리 문자여야 합니다.");
         }
+    }
 
+    public void postIdValidation(Long postId) {
+        if (postId > Long.MAX_VALUE || postId < Long.MIN_VALUE)
+            throw new VoteValidationException("게시글 ID는 64비트의 Long 타입이여야 합니다.");
     }
 
     public void voteTitleValidation(int length) {

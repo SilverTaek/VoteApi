@@ -16,9 +16,9 @@ public class VoteStatus {
     @EmbeddedId
     private VoteStatusId voteStatusId;
 
-    private String voteItemId;
+    private Long voteItemId;
 
-    public void insert(VoteStatusId voteStatusId, String voteItemId) {
+    public VoteStatus(VoteStatusId voteStatusId, Long voteItemId) {
         this.voteStatusId = voteStatusId;
         this.voteItemId = voteItemId;
     }

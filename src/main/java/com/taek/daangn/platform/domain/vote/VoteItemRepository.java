@@ -11,5 +11,4 @@ public interface VoteItemRepository extends JpaRepository<VoteItem, Long> {
     public List<VoteItem> findByVoteId(String voteId);
 
     public List<VoteItem> findByVoteIdOrderByVoteItemCountDesc(String voteId);
-
 }

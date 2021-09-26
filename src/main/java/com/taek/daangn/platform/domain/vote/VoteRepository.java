@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VoteRepository extends JpaRepository<Vote, String> {
-    //public Optional<Vote> findByVoteId(String voteId);
+
     public Vote findByVoteId(String voteId);
+
     public List<Vote> findByUserId(String userId);
 }

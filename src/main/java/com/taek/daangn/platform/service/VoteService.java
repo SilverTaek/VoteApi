@@ -3,23 +3,26 @@ package com.taek.daangn.platform.service;
 import com.taek.daangn.platform.common.Validation;
 import com.taek.daangn.platform.common.exception.VoteValidationException;
 import com.taek.daangn.platform.domain.vote.*;
-import com.taek.daangn.platform.web.dto.VoteResponseDto;
-import com.taek.daangn.platform.web.dto.VoteSaveRequestDto;
-import com.taek.daangn.platform.web.dto.VoteSelectRequestDto;
+import com.taek.daangn.platform.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class VoteService {
+
     private final VoteRepository voteRepository;
     private final VoteItemRepository voteItemRepository;
     private final VoteStatusRepository voteStatusRepository;
+
+    static boolean flag = false;
     static Validation validation = new Validation();
 
     @Transactional
@@ -46,31 +49,24 @@ public class VoteService {
         return vote.getVoteId();
     }
 
+    @Transactional
     public VoteResponseDto findVoteById(String userId, Long postId, String voteId) {
-        // 1. 만약 투표가 진행중이면 count를 안보이게 조회
+
+        validation.postIdValidation(postId);
 
         Vote entity = voteRepository.findById(voteId).orElseThrow(() -> new IllegalArgumentException("해당 투표가 존재하지 않습니다."));
 
         List<VoteItem> voteItems = voteItemRepository.findByVoteId(entity.getVoteId());
+
         VoteStatusId voteStatusId = new VoteStatusId(userId, voteId);
-        boolean flag = false;
+
         VoteStatus voteStatus = voteStatusRepository.findByVoteStatusId(voteStatusId);
-        if(voteStatus != null) {
+
+        if (voteStatus != null) {
             flag = true;
         }
 
         return new VoteResponseDto(entity, voteItems, flag);
     }
 
-    public List<VoteItem> findVoteResult(VoteSelectRequestDto voteSelectRequestDto) {
-        List<VoteItem> voteItems = voteItemRepository.findByVoteIdOrderByVoteItemCountDesc(voteSelectRequestDto.getVoteId());
-        return voteItems;
-    }
-
-    public List<Vote> findSaveVote(String userId) {
-
-        List<Vote> votes = voteRepository.findByUserId(userId);
-
-        return votes;
-    }
 }

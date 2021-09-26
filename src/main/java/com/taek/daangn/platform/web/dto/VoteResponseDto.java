@@ -17,7 +17,7 @@ public class VoteResponseDto {
 
     private String voteContent;
 
-    private List<VoteItem> voteItemList;
+    private List<VoteItem> voteItems;
 
     private LocalDateTime voteDeadline;
 
@@ -27,7 +27,7 @@ public class VoteResponseDto {
         this.userId = vote.getUserId();
         this.voteTitle = vote.getVoteTitle();
         this.voteContent = vote.getVoteContent();
-        this.voteItemList = voteItems;
+        this.voteItems = voteItems;
         this.voteDeadline = vote.getVoteDeadline();
         this.voteFlag = voteFlag;
     }
