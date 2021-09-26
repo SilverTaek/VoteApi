@@ -2,11 +2,11 @@ package com.taek.daangn.platform.service;
 
 import com.taek.daangn.platform.domain.vote.*;
 import com.taek.daangn.platform.web.dto.VoteSelectRequestDto;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +20,7 @@ public class VoteSelectService {
 
     public void select(String userId, VoteSelectRequestDto voteSelectRequestDto) {
         VoteStatus voteStatus = new VoteStatus();
-        VoteStatusId voteStatusId = new VoteStatusId();
-        voteStatusId.insert(userId, voteSelectRequestDto.getVoteItemId());
+        VoteStatusId voteStatusId = new VoteStatusId(userId, voteSelectRequestDto.getVoteId());
 
 
         voteStatus.insert(voteStatusId, voteSelectRequestDto.getVoteId());
@@ -36,11 +35,12 @@ public class VoteSelectService {
     }
 
     public boolean checkDeadline(VoteSelectRequestDto voteSelectRequestDto) {
-        LocalDate currentDate = LocalDate.now();
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
         Vote vote = voteRepository.findByVoteId(voteSelectRequestDto.getVoteId());
 
-        return currentDate.isAfter(vote.getVoteDeadline());
+        return currentDateTime.isAfter(vote.getVoteDeadline());
+
     }
 
     public boolean isCheckedVoteItem(VoteSelectRequestDto voteSelectRequestDto) {
@@ -55,12 +55,11 @@ public class VoteSelectService {
     }
 
     public boolean isCheckedUser(String userId, VoteSelectRequestDto voteSelectRequestDto) {
-        List<VoteStatus> voteStatuses = voteStatusRepository.findAllByVoteStatusId_UserId(userId);
 
-        for (VoteStatus voteStatus : voteStatuses) {
-            if (voteStatus.getVoteId().equals(voteSelectRequestDto.getVoteId())) {
-                return false;
-            }
+        VoteStatusId voteStatusId = new VoteStatusId(userId, voteSelectRequestDto.getVoteId());
+        VoteStatus voteStatus = voteStatusRepository.findByVoteStatusId(voteStatusId);
+        if (voteStatus != null) {
+            return false;
         }
 
         return true;

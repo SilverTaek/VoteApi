@@ -16,10 +16,10 @@ public class VoteStatus {
     @EmbeddedId
     private VoteStatusId voteStatusId;
 
-    private String voteId;
+    private String voteItemId;
 
-    public void insert(VoteStatusId voteStatusId, String voteId){
+    public void insert(VoteStatusId voteStatusId, String voteItemId) {
         this.voteStatusId = voteStatusId;
-        this.voteId = voteId;
+        this.voteItemId = voteItemId;
     }
 }

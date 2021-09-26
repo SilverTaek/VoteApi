@@ -5,6 +5,7 @@ import com.taek.daangn.platform.domain.vote.VoteItem;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,7 +19,7 @@ public class VoteResponseDto {
 
     private List<VoteItem> voteItemList;
 
-    private LocalDate voteDeadline;
+    private LocalDateTime voteDeadline;
 
     private boolean voteFlag;
 

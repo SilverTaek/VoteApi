@@ -29,24 +29,12 @@ public class VoteController {
 
     @PostMapping("/api/v1/votes")
     public String voteSave(@RequestHeader Map<String, String> map, @RequestBody VoteSaveRequestDto voteSaveRequestDto) {
-        String userId = map.get("x-user-id");
-        if (userId.length() != 4) {
-            throw new VoteValidationException("사용자 아이디는 4자리 문자여야 합니다.");
-        }
-        UUIDgeneration uuiDgeneration = new UUIDgeneration();
-        String voteId = uuiDgeneration.getUUID();
-
-        return voteService.insert(voteSaveRequestDto, userId, voteId);
+        return voteService.insert(voteSaveRequestDto, map.get("x-user-id"), new UUIDgeneration().getUUID());
     }
 
     @GetMapping("/api/v1/votes/{postId}/{voteId}")
     public VoteResponseDto findVoteById(@RequestHeader Map<String, String> map, @PathVariable Long postId, @PathVariable String voteId) {
-        String userId = map.get("x-user-id");
-        if (userId.length() != 4) {
-            throw new VoteValidationException("사용자 아이디는 4자리 문자여야 합니다.");
-        }
-
-        return voteService.findVoteById(userId, postId, voteId);
+        return voteService.findVoteById(map.get("x-user-id"), postId, voteId);
     }
 
     @PostMapping("/api/v1/vote/item")
@@ -69,7 +57,7 @@ public class VoteController {
 
         if (voteSelectService.isCheckedUser(userId, voteSelectRequestDto)) {
             voteSelectService.select(userId, voteSelectRequestDto);
-            response.put("성공",null);
+            response.put("성공", null);
         } else {
             throw new VoteValidationException("이미 투표를 완료했습니다. 투표는 한번만 가능합니다.");
         }
@@ -78,7 +66,7 @@ public class VoteController {
     }
 
     @GetMapping("api/v1/votes/{userId}")
-    public List<Vote> findSaveVote(@PathVariable String userId){
+    public List<Vote> findSaveVote(@PathVariable String userId) {
         return voteService.findSaveVote(userId);
     }
 

@@ -6,9 +6,7 @@ import java.util.List;
 
 public interface VoteStatusRepository extends JpaRepository<VoteStatus, VoteStatusId> {
 
-   // public void save(VoteStatusId voteStatusId);
+    //public List<VoteStatus> findAllByVoteStatusId_UserId(String userId);
 
     public VoteStatus findByVoteStatusId(VoteStatusId voteStatusId);
-
-    public List<VoteStatus> findAllByVoteStatusId_UserId(String userId);
 }
