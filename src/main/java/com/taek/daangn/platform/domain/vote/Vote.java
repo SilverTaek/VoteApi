@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,8 +27,10 @@ public class Vote {
 
     private LocalDateTime voteDeadline;
 
+    @Size(max = 100)
     private String voteTitle;
 
+    @Size(max = 10000)
     private String voteContent;
 
     @OneToMany

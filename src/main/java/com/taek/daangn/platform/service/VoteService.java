@@ -29,8 +29,6 @@ public class VoteService {
     public String insert(VoteSaveRequestDto voteSaveRequestDto, String userId, String voteId) {
 
         validation.userIdValidation(userId);
-        validation.voteTitleValidation(voteSaveRequestDto.getVoteTitle().length());
-        validation.voteContentValidation(voteSaveRequestDto.getVoteContent().length());
         validation.voteItemValidation(voteSaveRequestDto.getVoteItem().size());
 
         Vote isUsedVoteId = voteRepository.findByVoteId(voteId);

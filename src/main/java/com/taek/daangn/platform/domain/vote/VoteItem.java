@@ -3,11 +3,14 @@ package com.taek.daangn.platform.domain.vote;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @Getter
@@ -20,7 +23,8 @@ public class VoteItem {
     private Long voteItemId;
 
     private String voteId;
-
+    
+    @Size(max = 50)
     private String voteItemName;
 
     private Long voteItemCount;
